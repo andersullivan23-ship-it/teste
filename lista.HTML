@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Presentes - Carolina & Anderson</title>
+<style>
+  /* RESET */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background: url('imagens/fundo.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* Fundo com brilhos */
+  .glitters {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .glitter {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.8);
+    pointer-events: none;
+    animation: float 5s linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) scale(0.5); opacity: 0.6; }
+    50% { transform: translateY(-40px) scale(1); opacity: 1; }
+    100% { transform: translateY(0) scale(0.5); opacity: 0.6; }
+  }
+
+  /* Overlay */
+  .overlay {
+    background: rgba(245, 230, 220, 0.88);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .logo {
+    max-width: 260px;
+    width: 50%;
+    margin-bottom: 15px;
+  }
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #7b3f00;
+  }
+
+  /* Relógio no fundo */
+  .countdown-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60px;
+    font-weight: bold;
+    color: rgba(123,63,0,0.12);
+    text-shadow: 0 0 20px rgba(255,255,255,0.3);
+    z-index: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.25; transform: translate(-50%, -50%) scale(1.03); }
+  }
+
+  /* Botões */
+  .button {
+    position: relative;
+    display: block;
+    width: 80%;
+    max-width: 300px;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 30px;
+    background: linear-gradient(45deg, #c68657, #d9a066);
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 2;
+  }
+
+  .button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 215, 180, 0.8), 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  .voltar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(123,63,0,0.85);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 15px;
+    text-decoration: none;
+    z-index: 3;
+    transition: 0.3s;
+  }
+
+  .voltar:hover {
+    background: rgba(123,63,0,1);
+    transform: scale(1.05);
+  }
+
+  /* Contagem */
+  .countdown {
+    font-size: 20px;
+    color: #7b3f00;
+    margin-top: 25px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  }
+
+  /* Responsividade */
+  @media(max-width: 600px){
+    h1 { font-size: 22px; }
+    .logo { width: 60%; }
+    .button { font-size: 16px; padding: 12px; }
+    .countdown-bg { font-size: 38px; }
+    .countdown { font-size: 18px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Fundo com brilhos -->
+<div class="glitters" id="glitters"></div>
+
+<!-- Relógio decorativo no fundo -->
+<div class="countdown-bg" id="countdown-bg">Faltam 0 dias</div>
+
+<!-- Overlay principal -->
+<div class="overlay">
+  <a href="index.html" class="voltar">⬅ Voltar</a>
+
+  <img src="imagens/casal.png" alt="Logo Carolina e Anderson" class="logo">
+  <h1>🎁 Nossas Listas de Presentes</h1>
+
+  <a class="button" href="https://www.querodecasamento.com.br/lista-de-casamento/carolina-pereira--anderson-henrique" target="_blank">
+    💝 Lista de Presentes 1
+  </a>
+
+  <a class="button" href="https://www.amazon.com.br/wedding" target="_blank">
+    🎁 Lista de Presentes 2
+  </a>
+
+  <div class="countdown" id="countdown"></div>
+</div>
+
+<script>
+  // Criação dos brilhos
+  const glittersContainer = document.getElementById('glitters');
+  const numGlitters = 40;
+  for(let i=0;i<numGlitters;i++){
+    const glitter = document.createElement('div');
+    glitter.classList.add('glitter');
+    glitter.style.left = Math.random()*100 + 'vw';
+    glitter.style.top = Math.random()*100 + 'vh';
+    glitter.style.animationDuration = 4 + Math.random()*4 + 's';
+    glitter.style.width = 3 + Math.random()*5 + 'px';
+    glitter.style.height = 3 + Math.random()*5 + 'px';
+    glittersContainer.appendChild(glitter);
+  }
+
+  // Contagem regressiva
+  const casamento = new Date("May 23, 2026 17:00:00").getTime();
+  const countdownEl = document.getElementById("countdown");
+  const countdownBg = document.getElementById("countdown-bg");
+
+  const x = setInterval(() => {
+    const now = new Date().getTime();
+    const distance = casamento - now;
+
+    const dias = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownEl.innerHTML = `💒 Faltam ${dias} dias, ${horas}h ${minutos}m ${segundos}s para o grande dia!`;
+    countdownBg.textContent = `💍 ${dias} dias`;
+
+    if (distance < 0) {
+      clearInterval(x);
+      countdownEl.innerHTML = "💍 Chegou o grande dia!";
+      countdownBg.textContent = "💞 É hoje!";
+    }
+  }, 1000);
+</script>
+
+</body>
+</html>
